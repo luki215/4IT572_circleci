@@ -35,11 +35,6 @@ jobs:
            npm install
            npm run test
            npm run build
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: .
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -48,10 +43,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 8
-      - name: Download a single artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
+      - name: Deploy
+        run: |
+           npm install
+           ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+      
       - name: Deploy
         run: |
           ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
