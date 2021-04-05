@@ -41,6 +41,7 @@ jobs:
           name: dist
           path: .
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Use Node.js 8
